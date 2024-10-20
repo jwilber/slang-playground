@@ -1,171 +1,93 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Page Title</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial;
-  margin: 0;
-}
-
-.header {
-  padding: 10px;
-  text-align: center;
-  background: #1abc9c;
-  color: white;
-}
-
-.monaco-editor {
-    position: absolute !important;
-}
-
-.navbar {
-  display: flex;
-  background-color: #111;
-}
-
-.bannerbar {
-  display: flex;
-  background-color: #ddd;
-}
-
-.navbar a {
-  color: white;
-  padding: 14px 20px;
-  text-decoration: none;
-  text-align: center;
-}
-
-.navbar a:hover {
-  background-color: orange;
-  color: black;
-}
-
-.mainContainer {
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
-}
-
-.workSpace {
-  flex: 60%;
-  background-color: #333;
-  border: 2px solid red;
-  flex-direction: column;
-}
-
-.codingSpace {
-  background-color: #aaa;
-  margin: 10px;
-  border: 2px solid red;
-}
-
-.diagnosticSpace {
-  background-color: #aaa;
-  margin: 10px;
-  border: 2px solid red;
-}
-
-.resultSpace {
-  flex: 40%;
-  background-color: #777;
-  border: 2px solid red;
-  flex-direction: column;
-}
-
-.outputSpace {
-  background-color: #aaa;
-  margin: 10px;
-  border: 2px solid red;
-}
-
-.codeGenSpace {
-  background-color: #aaa;
-  padding: 10px;
-  margin: 10px;
-  border: 2px solid red;
-}
-
-.renderCanvas {
-  background-color: #aaa;
-  border: 2px solid red;
-  display: block;  /* make the canvas act like a block   */
-  width: 100%;     /* make the canvas fill its container */
-  height: 100%;
-}
-
-/* Footer */
-.footer {
-  padding: 20px;
-  text-align: center;
-  background: #ddd;
-}
-
-</style>
-  <script src="https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/vs/loader.js"></script>
-  <script>
-          require.config({ paths: { 'vs': 'https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/vs' }});
-          window.MonacoEnvironment = { getWorkerUrl: () => proxy };
-          let proxy = URL.createObjectURL(new Blob([`
+  <head>
+    <title>Page Title</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <script src="https://unpkg.com/split-grid/dist/split-grid.js"></script>
+    <script src="https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/vs/loader.js"></script>
+    <script>
+      require.config({
+        paths: {
+          vs: "https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/vs",
+        },
+      });
+      window.MonacoEnvironment = { getWorkerUrl: () => proxy };
+      let proxy = URL.createObjectURL(
+        new Blob(
+          [
+            `
               self.MonacoEnvironment = {
                   baseUrl: 'https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/'
               };
               importScripts('https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/vs/base/worker/workerMain.js');
-          `], { type: 'text/javascript' }));
-  </script>
-  <script src="util.js"></script>
-  <script src="pass_through.js"></script>
-  <script src="compute.js"></script>
-  <script src="try-slang.js"></script>
-  <script src="slang-wasm.js"></script>
-</head>
-<body>
-
-<!-- Header -->
-<div class="header">
-  <h2>Slang Playground</h2>
-</div>
-
-
-<div class="bannerbar" id="WebGPU-status-bar">
-  WebGPU status
-</div>
-
-<!-- Navigation Bar -->
-<div class="navbar">
-  <button style="background-color: orange" id="run-btn" onclick="onRunCompile()" disabled>Run</button>
-  <a href="#">Link</a>
-  <a href="#">Link</a>
-  <a href="#">Link</a>
-  <a href="#">Link</a>
-</div>
-
-<div class="mainContainer">
-  <div class="workSpace" style="height:1200px;">
-    <div class="codingSpace" style="height:800px" id="codeEditor"></div>
-      <script> loadEditor(false, 'codeEditor', defaultShaderCode); </script>
-
-    <div class="diagnosticSpace" style="height:320px" id="diagnostics"></div>
-      <script> loadEditor(true, 'diagnostics', "diagnostic space"); </script>
-  </div>
-
-  <div class="resultSpace">
-    <div class="outputSpace" style="height:640px" id="output">
-      <canvas class="renderCanvas" id="canvas"></canvas>
+          `,
+          ],
+          { type: "text/javascript" }
+        )
+      );
+    </script>
+    <script src="util.js"></script>
+    <script src="pass_through.js"></script>
+    <script src="compute.js"></script>
+    <script src="try-slang.js"></script>
+    <script src="slang-wasm.js"></script>
+  </head>
+  <body>
+    <div class="mainContainer">
+      <div class="leftContainer">
+        <h2>Slang Playground</h2>
+        <div class="navbar">
+          <div class="card">
+            <div class="navbar-group">
+              <div class="dropdown">
+                <a href="#" class="dropdown-btn">New &#9662;</a>
+                <div class="dropdown-content">
+                  <a href="#">Runnable Print Shader</a>
+                  <a href="#">Runnable Image Shader</a>
+                  <a href="#">Option 3</a>
+                </div>
+              </div>
+              <div class="dropdown">
+                <a href="#" class="dropdown-btn">Demo &#9662;</a>
+                <div class="dropdown-content">
+                  <a href="#">Demo 1</a>
+                  <a href="#">Demo 2</a>
+                  <a href="#">Demo 3</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <button id="run-btn" class="btn" onclick="onRunCompile()" disabled>
+              Run
+            </button>
+          </div>
+          <div class="card">
+            <a href="#" class="run-btn">computeMain (Compute) -> SPIRV</a>
+            <a href="#" class="compile-btn">Compile</a>
+          </div>
+        </div>
+        <div class="workSpace">
+          <div class="codingSpace" id="codeEditor"></div>
+          <div class="gutter gutter-vertical"></div>
+          <div class="diagnosticSpace" id="diagnostics"></div>
+        </div>
+      </div>
+      <div class="gutter gutter-horizontal"></div>
+      <div class="rightContainer">
+        <div class="resultSpace">
+          <div class="outputSpace" id="output">
+            <canvas class="renderCanvas" id="canvas"></canvas>
+          </div>
+          <div class="gutter gutter-vertical"></div>
+          <div class="codeGenSpace" id="codeGen"></div>
+        </div>
+      </div>
     </div>
-    <div class="codeGenSpace"style="height:480px" id="codeGen"></div>
-      <script> loadEditor(true, 'codeGen', "out generation space"); </script>
-  </div>
-</div>
 
-
-
-
-</body>
+    <script src="ui.js"></script>
+  </body>
 </html>
