@@ -8,7 +8,7 @@
 
   --dark-grey: hsl(0, 0%, 7%);
   --medium-grey: hsl(0, 0%, 13%);
-  --light-grey: hsl(0, 0%, 33%);
+  --light-grey: hsl(0deg 0% 11.76);
   --very-light-grey: hsl(0, 0%, 67%);
 }
 
@@ -110,7 +110,7 @@ h2 {
 .diagnosticSpace,
 .outputSpace,
 .codeGenSpace {
-  background-color: var(--very-light-grey);
+  background-color: var(--light-grey);
   overflow: auto;
 }
 
@@ -159,7 +159,7 @@ h2 {
 #run-btn {
   background-color: var(--medium-grey);
   color: var(--white);
-  border: 2px solid var(--green);
+  /* border: 2px solid var(--green); */
   padding: 8px 16px;
   text-decoration: none;
   text-align: center;
@@ -186,7 +186,7 @@ h2 {
 
 .dropdown-btn {
   background-color: var(--medium-grey);
-  border: 2px solid var(--green);
+  /* border: 2px solid var(--green); */
   color: var(--white);
   padding: 8px 16px;
   text-align: center;
@@ -211,11 +211,11 @@ h2 {
   padding: 12px 16px;
   text-decoration: none;
   display: block;
-  border-bottom: 2px solid var(--green);
+  /* border-bottom: 2px solid var(--green); */
 }
 
 .dropdown-content a:hover {
-  background-color: hsl(0, 0%, 33%);
+  /* color: var(--green); */
 }
 
 .dropdown:hover .dropdown-content {
